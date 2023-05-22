@@ -37,7 +37,7 @@ const states = [
         ],
       },
     ],
-  },
+  }, // 1 state complete
   {
     name: "Jharkhand",
     cities: [
@@ -154,8 +154,60 @@ const states = [
   },
 ];
 
-function App() {
-  return <div id="main"></div>;
-}
+  const App =()=>{
+    const [selectedState, setSelectedState] =useState(null);
+    const [selectedCity, setSelectedCity] = useState(null);
 
+    const handlestateClick = (state) =>{
+      setSelectedState((prevSelectedState)=>
+      prevSelectedState === state ? null : state
+      );
+    };
+    const handleCityClick = (city) =>{
+      setSelectedCity((prevSelectedCity) =>
+      prevSelectedCity === city ? null : city
+      );
+    };
+
+  return (
+    <div id="main">
+      <ol>
+        {states.map((state, stateIndex) => (
+          <li
+            Key={`state${stateIndex + 1}`}
+            onClick={() => handlestateClick(state)}
+          >
+            {state.name}
+            {selectedState === state && (
+              <ol>
+                {state.cities.map((city, cityIndex) => (
+                  <li
+                    Key={`city${stateIndex + 1}-${cityIndex + 1}`}
+                    onClick={() => handleCityClick(city)}
+                  >
+                    {city.name}
+                    {selectedCity === city && (
+                      <ol>
+                        {city.towns.map((town, townIndex) => (
+                          <li 
+                          Key={`town${stateIndex + 1}-${cityIndex + 1}-${townIndex +1}`}
+                          >
+                            {town.name}
+                          </li>
+                        ))}
+                      </ol>
+                    )}
+                  </li>
+                ))}
+              </ol>
+            )}
+          </li>
+        ))}
+      </ol> 
+    </div>
+    
+  );
+
+
+}
 export default App;
